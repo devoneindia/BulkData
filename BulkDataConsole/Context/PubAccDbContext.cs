@@ -1,13 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using LoadDataProject.Models;
 using Microsoft.Extensions.Configuration;
+using BulkDataConsole.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LoadDataProject.DbContexts
+namespace BulkDataConsole.Context
 {
     public class PubAccDbContext : DbContext
     {
@@ -31,8 +31,7 @@ namespace LoadDataProject.DbContexts
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<PubAccEM>().HasNoKey();
-            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<PubAccEM>(eb => { eb.HasNoKey(); });
         }
     }
 }

@@ -3,7 +3,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace LoadDataProject.Models
+namespace BulkDataConsole.Models
 {
     [Table(name: "pubacc_em", Schema = "main")]
     [Index(nameof(UniqueSystemIdentifier))]
