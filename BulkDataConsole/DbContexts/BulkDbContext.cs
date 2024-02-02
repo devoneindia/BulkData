@@ -12,7 +12,7 @@ namespace LoadDataProject.DbContexts
 {
     public class BulkDbContext : DbContext
     {
-        public DbSet<BulkAccEM> PubAccEMs { get; set; }
+        public DbSet<BulkAccEM> BulkAccEMs { get; set; }
 
         public BulkDbContext()
         {
@@ -27,7 +27,7 @@ namespace LoadDataProject.DbContexts
                 .Build();
             string dbConnString = configurationInstance["ConnectionStrings:BulkEMDb"] ?? "";
             Console.WriteLine($"Connection String: {dbConnString}");
-            optionsBuilder.UseLoggerFactory(LoggerFactory.Create(builder => builder.AddConsole()));
+            //optionsBuilder.UseLoggerFactory(LoggerFactory.Create(builder => builder.AddConsole()));
             optionsBuilder.UseNpgsql(dbConnString);
             base.OnConfiguring(optionsBuilder);
         }
