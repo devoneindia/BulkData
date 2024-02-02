@@ -13,29 +13,40 @@ namespace BulkDataConsole
         {
             using (var dbContext = new PubAccDbContext())
             {
-                String filePath = "C:\\src\\BulkData\\PubAccEM01.CSV";
+                String filePath = "C:\\src\\BulkData\\PubAccEM.txt";
                 List<string> inputLines = File.ReadAllLines(filePath).ToList();
+
+
+                if (inputLines != null && inputLines.Count > 0)
+                {
+                    InserData(dbContext, inputLines);
+                    Console.WriteLine($"File exists and writing to the database. {inputLines.Count} records written.");
+                }
+                else
+                {
+                    Console.WriteLine("No file found.");
+                }
 
                 InserData(dbContext, inputLines);
             }
         }
-
+    
         public static void InserData(PubAccDbContext dbContext, List<string> inputLines)
         {
-            foreach (var line in inputLines)
-            {
-                string[] values = line.Split(',');
-                var parameters = GetParameters(values);
+                foreach (var line in inputLines)
+                {
+                    string[] values = line.Split('|');
+                    var parameters = GetParameters(values);
 
-                dbContext.Database.ExecuteSqlRaw(
-                    "INSERT INTO main.pubacc_em (record_type, unique_system_identifier, uls_file_number, ebf_number, " +
-                    "call_sign, location_number, antenna_number, frequency_assigned, emission_action_performed, emission_code, " +
-                    "digital_mod_rate, digital_mod_type, frequency_number, status_code, status_date, emission_sequence_id) " +
-                    "VALUES (@recordType, @usId, @ulsFile, @ebf, @callSign, @location, @antenna, @frequency, @emissionAction, " +
-                    "@emissionCode, @modRate, @modType, @frequencyNum, @statusCode, @statusDate, @emissionId)",
-                    parameters.ToArray()
-                );
-            }
+                    dbContext.Database.ExecuteSqlRaw(
+                        "INSERT INTO main.pubacc_em (record_type, unique_system_identifier, uls_file_number, ebf_number, " +
+                        "call_sign, location_number, antenna_number, frequency_assigned, emission_action_performed, emission_code, " +
+                        "digital_mod_rate, digital_mod_type, frequency_number, status_code, status_date, emission_sequence_id) " +
+                        "VALUES (@recordType, @usId, @ulsFile, @ebf, @callSign, @location, @antenna, @frequency, @emissionAction, " +
+                        "@emissionCode, @modRate, @modType, @frequencyNum, @statusCode, @statusDate, @emissionId)",
+                        parameters.ToArray()
+                    );     
+                }
         }
 
         private static List<NpgsqlParameter> GetParameters(string[] values)
@@ -58,7 +69,8 @@ namespace BulkDataConsole
                             string.IsNullOrWhiteSpace(values[i]) ? "0" : values[i])
                             )
                         );
-                }else if (parameterNames[i] == "statusDate")
+                }
+                else if (parameterNames[i] == "statusDate")
                 {
                     parameters.Add(new NpgsqlParameter(parameterNames[i],
                         Convert.ToDateTime(
