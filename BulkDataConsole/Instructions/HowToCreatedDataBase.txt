@@ -1,0 +1,33 @@
+﻿//"UlsDb": "User ID=localUlsap01;Password=localpwd01;Host=localhost;Port=5432;Database=UlsDb;Connection Lifetime=0;"
+
+Run the following in PSQL Tool (postgres)
+
+	 
+
+	CREATE USER assem02 WITH password 'localdbpassword)!';	
+
+	CREATE DATABASE lldb;
+
+	GRANT ALL PRIVILEGES ON DATABASE lldb TO assem02;
+
+   	\c lldb;
+
+	GRANT ALL on SCHEMA public to assem02;
+
+	\c postgres;
+
+
+	///to drop database and tables
+	// Drop and Recreate
+\c postgres;
+
+drop database localemployeedb;
+
+drop database localemployeedb WITH (FORCE);
+
+REVOKE ALL on schema public from localsanthozuser01;
+
+drop user localsanthozuser01;
+
+\c postgres;
+

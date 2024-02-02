@@ -1,0 +1,18 @@
+﻿cd .\TimeTracker\
+dotnet tool install --global dotnet-ef
+dotnet tool update --global dotnet-ef
+dotnet add package Microsoft.EntityFrameworkCore.Design                       
+
+dotnet ef migrations add InitialCreate --context  PubAccDbContext  <-- we got this from the DbContext      
+
+dotnet ef database update --context PubAccDbContext                        
+
+//HOW TO ADD a New column
+//To add newcolumn using Migration
+       
+dotnet ef migrations added OrnamentalFishEntity --context ShopDbContext
+dotnet ef database update --context ShopDbContext
+
+dotnet ef migrations add Updated --context  ShopDbContext        
+
+
